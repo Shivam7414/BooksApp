@@ -1,8 +1,10 @@
 <?php
 
 use App\Http\Controllers\Admin\BookController;
-use Illuminate\Http\Request;
+use App\Http\Controllers\Admin\AuthController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,8 +20,17 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+Route::get('/user', function (Request $request) {
+    return Auth::guard('admin')->user();
+});
+Route::get('unauthorized_message', function () {
+    return response()->json(['message' => 'Unauthorized'], 401);
+})->name('unauthorized.message');
 
-Route::prefix('admin')->group(function () {
+Route::post('admin/login', [AuthController::class, 'login']);
+Route::post('admin/logout', [AuthController::class, 'logout']);
+
+Route::prefix('admin')->middleware('auth:admin')->group(function () {
     Route::get('get_books', [BookController::class, 'getBooks']);
     Route::post('add_book', [BookController::class, 'addBook']);
     Route::patch('edit_book/{id}', [BookController::class, 'editBook']);
