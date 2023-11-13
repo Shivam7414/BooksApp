@@ -30,10 +30,19 @@ Route::get('unauthorized_message', function () {
 
 Route::post('admin/login', [AuthController::class, 'login']);
 Route::post('admin/logout', [AuthController::class, 'logout']);
-Route::get('book/search', [UserBookController::class, 'search']);
-Route::get('get_books', [BookController::class, 'getBooks']);
 
-Route::prefix('admin')->middleware('auth:admin')->group(function () {
+Route::get('book/search', [UserBookController::class, 'search']);
+Route::get('book/detail/{id}', [UserBookController::class, 'detail']);
+
+// Route::middleware('auth:admin')->prefix('admin')->group(function () {
+//     Route::get('get_books', [BookController::class, 'getBooks']);
+//     Route::post('add_book', [BookController::class, 'addBook']);
+//     Route::patch('edit_book/{id}', [BookController::class, 'editBook']);
+//     Route::delete('delete_book/{id}', [BookController::class, 'deleteBook']);
+// });
+
+Route::prefix('admin')->group(function () {
+    Route::get('get_books', [BookController::class, 'getBooks']);
     Route::post('add_book', [BookController::class, 'addBook']);
     Route::patch('edit_book/{id}', [BookController::class, 'editBook']);
     Route::delete('delete_book/{id}', [BookController::class, 'deleteBook']);

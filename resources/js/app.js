@@ -1,6 +1,7 @@
 import './bootstrap';
+import Swal from 'sweetalert2';
 import { createApp } from 'vue';
-import routes from './routes/routes.js';
 import app from './layouts/app.vue';
+import router from './routes/index.js';
 
-createApp(app).use(routes).mount("#app");
+createApp(app).use(router).mount("#app");

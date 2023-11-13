@@ -1,9 +1,10 @@
 import { createWebHistory, createRouter } from "vue-router";
-import home from '../pages/home.vue';
-import adminLogin from '../pages/Admin/login.vue'
-import addBook from '../pages/Admin/book/modal/add.vue';
 import editBook from '../pages/Admin/book/modal/edit.vue';
-import login from '../pages/login.vue';
+import addBook from '../pages/Admin/book/modal/add.vue';
+import adminLogin from '../pages/Admin/login.vue';
+import books from '../pages/Admin/book/index.vue';
+import BookDetail from '../pages/BookDetail.vue';
+import home from '../pages/home.vue';
 
 const routes = [
     {
@@ -11,13 +12,17 @@ const routes = [
         name: 'Home',
         component: home
     },{
-        path: '/admin/login',
+        path: '/book-detail/:id',
+        name: 'BookDetail',
+        component: BookDetail
+    },{
+        path: '/admin_login',
         name: 'admin',
         component: adminLogin
     },{
         path: '/admin/book/index',
-        name: 'Login',
-        component: login
+        name: 'books',
+        component: books
     },{
         path: '/admin/book/add',
         name: 'addBook',

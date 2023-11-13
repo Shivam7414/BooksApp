@@ -19,6 +19,11 @@ Follow these steps to set up the project:
     ```bash
     php artisan migrate
     ```
+3. Run add fake book command:
+
+    ```bash
+    php artisan fake:books
+    ```
 
 ## Usage
 

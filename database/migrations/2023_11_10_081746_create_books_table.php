@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('author');
             $table->string('genre');
             $table->text('description');
-            $table->string('image');
+            $table->string('publisher');
             $table->string('isbn')->unique();
             $table->date('published_at');
             $table->timestamps();

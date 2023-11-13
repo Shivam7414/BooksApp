@@ -11,23 +11,7 @@ use App\Models\Book;
 class BookController extends Controller
 {
     public function getBooks(Request $request) {
-        // $apiUrl = 'https://fakerapi.it/api/v1/books?_quantity=100';
-
-        // $response = Http::get($apiUrl);
-        // $data = $response->json();
-        // foreach($data['data'] as $data){
-        //     $book = new Book();
-        //     $book->title = $data['title'];
-        //     $book->author = $data['author'];
-        //     $book->genre = $data['genre'];
-        //     $book->description = $data['description'];
-        //     $book->image = $data['image'];
-        //     $book->isbn = $data['isbn'];
-        //     $book->published_at = $data['published'];
-        //     $book->save();
-        // }
         $perPage = $request->query('per_page', 20);
-
         $request->validate([
             'per_page' => 'integer|between:1,100',
         ]);
@@ -43,6 +27,7 @@ class BookController extends Controller
             $book->author = $request->author;
             $book->genre = $request->genre;
             $book->description = $request->description;
+            $book->publisher = $request->publisher;
             $book->isbn = $request->isbn;
             $book->published_at = $request->published_at;
             $book->save();
