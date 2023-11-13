@@ -147,5 +147,11 @@ return [
         ],
 
     ],
+    'elasticsearch' => [
+        'index' => 'books',
+        'hosts' => [
+            env('ELASTICSEARCH_HOST', 'http://localhost:8000'),
+        ],
+    ],
 
 ];

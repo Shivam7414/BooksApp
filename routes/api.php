@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BookController as UserBookController;
 use App\Http\Controllers\Admin\BookController;
 use App\Http\Controllers\Admin\AuthController;
 use Illuminate\Support\Facades\Route;
@@ -29,9 +30,10 @@ Route::get('unauthorized_message', function () {
 
 Route::post('admin/login', [AuthController::class, 'login']);
 Route::post('admin/logout', [AuthController::class, 'logout']);
+Route::get('book/search', [UserBookController::class, 'search']);
+Route::get('get_books', [BookController::class, 'getBooks']);
 
 Route::prefix('admin')->middleware('auth:admin')->group(function () {
-    Route::get('get_books', [BookController::class, 'getBooks']);
     Route::post('add_book', [BookController::class, 'addBook']);
     Route::patch('edit_book/{id}', [BookController::class, 'editBook']);
     Route::delete('delete_book/{id}', [BookController::class, 'deleteBook']);
