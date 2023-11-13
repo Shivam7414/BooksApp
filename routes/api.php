@@ -34,6 +34,8 @@ Route::post('admin/logout', [AuthController::class, 'logout']);
 Route::get('book/search', [UserBookController::class, 'search']);
 Route::get('book/detail/{id}', [UserBookController::class, 'detail']);
 
+//Auth system not working properly
+
 // Route::middleware('auth:admin')->prefix('admin')->group(function () {
 //     Route::get('get_books', [BookController::class, 'getBooks']);
 //     Route::post('add_book', [BookController::class, 'addBook']);
