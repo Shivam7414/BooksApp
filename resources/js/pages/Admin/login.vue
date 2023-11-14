@@ -4,12 +4,27 @@
             <form @submit.prevent="login">
                 <div class="mb-3">
                     <label class="form-label">Email</label>
-                    <input type="email" class="form-control" v-model="form.email" required>
+                    <input
+                        type="email"
+                        class="form-control"
+                        v-model="form.email"
+                        required
+                    />
                 </div>
                 <div class="mb-3">
                     <label class="form-label">password</label>
-                    <input type="password" class="form-control" v-model="form.password" required>
-                    <button type="submit" class="btn btn-primary mt-4 float-end">Login</button>
+                    <input
+                        type="password"
+                        class="form-control"
+                        v-model="form.password"
+                        required
+                    />
+                    <button
+                        type="submit"
+                        class="btn btn-primary mt-4 float-end"
+                    >
+                        Login
+                    </button>
                 </div>
             </form>
         </div>
@@ -17,55 +32,55 @@
 </template>
 <script>
 import { useRouter } from "vue-router";
-import { reactive, ref } from 'vue';
-import axios from 'axios';
-import Swal from 'sweetalert2';
-    var Toast = Swal.mixin({
-        toast: true,
-        position: 'top-end',
-        showConfirmButton: false,
-        timer: 3000,
-        timerProgressBar: true,
-        didOpen: (toast) => {
-            toast.addEventListener('mouseenter', Swal.stopTimer)
-            toast.addEventListener('mouseleave', Swal.resumeTimer)
-        }
+import { reactive, ref } from "vue";
+import axios from "axios";
+import Swal from "sweetalert2";
+
+var Toast = Swal.mixin({
+    toast: true,
+    position: "top-end",
+    showConfirmButton: false,
+    timer: 3000,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+        toast.addEventListener("mouseenter", Swal.stopTimer);
+        toast.addEventListener("mouseleave", Swal.resumeTimer);
+    },
+});
+
+function showToast(type, message) {
+    Toast.fire({
+        icon: type,
+        title: message,
     });
-    function showToast(type, message) {
-        Toast.fire({
-            icon: type,
-            title: message
+}
+
+export default {
+    setup() {
+        const router = useRouter();
+        const form = reactive({
+            email: "admin@example.com",
+            password: "admin",
         });
-    }
-    export default{
-        setup(){
-            const router = useRouter();
-            const form = reactive({
-                email: 'admin@example.com',
-                password:'admin',
-            });
 
-            let error = ref('')
-
-            const login = async () => {
-                try {
-                    const res = await axios.post('/api/admin/login', form);
-                    if (res.data.success === true) {
-                        showToast('success', res.data.message);
-                        localStorage.setItem('token', res.data.data.token);
-                        router.push({name: 'booksIndex'});
-                    } else {
-                        
-                    }
-                } catch (error) {
-                    showToast('error', error.response.data.message);
+        const login = async () => {
+            try {
+                const res = await axios.post("/api/admin/login", form);
+                if (res.data.success === true) {
+                    showToast("success", res.data.message);
+                    localStorage.setItem("token", res.data.data.token);
+                    router.push({ name: "booksIndex" });
+                    window.location.reload();
                 }
-            };
+            } catch (error) {
+                showToast("error", error.response.data.message);
+            }
+        };
 
-            return {
-                form, login
-            } 
-        }
-    }
-    
+        return {
+            form,
+            login,
+        };
+    },
+};
 </script>

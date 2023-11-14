@@ -20,14 +20,21 @@
                 >
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <router-link to="admin/book/index" class="nav-link">Dashboard</router-link
+                            <router-link
+                                to="admin/book/index"
+                                class="nav-link"
+                                v-if="isLoggedIn"
+                                >Dashboard</router-link
                             >
                         </li>
                     </ul>
                     <div>
                         <ul class="navbar-nav">
-                            <li class="nav-item me-3" v-if="isLoggedIn">
-                                <router-link to="admin_login" class="btn btn-primary">Admin Login</router-link
+                            <li class="nav-item me-3" v-if="!isLoggedIn">
+                                <router-link
+                                    to="admin_login"
+                                    class="btn btn-primary"
+                                    >Admin Login</router-link
                                 >
                             </li>
                             <li class="nav-item" v-if="isLoggedIn">
@@ -43,23 +50,30 @@
         <router-view></router-view>
     </div>
 </template>
+
 <script>
-import { ref, onMounted } from "vue";
+import { ref, watchEffect } from "vue";
 import { useRouter } from "vue-router";
 
 export default {
     setup() {
         const router = useRouter();
-        const isLoggedIn = ref(false);
+        const isLoggedIn = ref(!!localStorage.getItem("token"));
 
         const logout = () => {
             localStorage.removeItem("token");
+            isLoggedIn.value = false;
             router.push({ name: "Home" });
         };
 
-        // Check if the user is logged in on component mount
-        onMounted(() => {
-            isLoggedIn.value = !!localStorage.getItem("token");
+        if (localStorage.getItem("token")) {
+            isLoggedIn.value = true;
+        }
+
+        watchEffect(() => {
+            const token = localStorage.getItem("token");
+            isLoggedIn.value = !!token;
+            console.log('isLoggedIn:', isLoggedIn.value);
         });
 
         return {
