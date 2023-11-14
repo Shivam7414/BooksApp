@@ -18,7 +18,7 @@ class BookController extends Controller
 
         $books = Book::paginate($perPage);
 
-        return response()->json($books);
+        return response()->json($books, 200);
     }
     public function addBook(AddBookRequest $request) {
         try {

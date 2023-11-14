@@ -16,8 +16,9 @@
     </div>
 </template>
 <script>
-import axios from 'axios';
+import { useRouter } from "vue-router";
 import { reactive, ref } from 'vue';
+import axios from 'axios';
 import Swal from 'sweetalert2';
     var Toast = Swal.mixin({
         toast: true,
@@ -29,7 +30,7 @@ import Swal from 'sweetalert2';
             toast.addEventListener('mouseenter', Swal.stopTimer)
             toast.addEventListener('mouseleave', Swal.resumeTimer)
         }
-    })
+    });
     function showToast(type, message) {
         Toast.fire({
             icon: type,
@@ -38,6 +39,7 @@ import Swal from 'sweetalert2';
     }
     export default{
         setup(){
+            const router = useRouter();
             const form = reactive({
                 email: 'admin@example.com',
                 password:'admin',
@@ -51,6 +53,7 @@ import Swal from 'sweetalert2';
                     if (res.data.success === true) {
                         showToast('success', res.data.message);
                         localStorage.setItem('token', res.data.data.token);
+                        router.push({name: 'booksIndex'});
                     } else {
                         
                     }
