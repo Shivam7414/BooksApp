@@ -1,6 +1,49 @@
 <template>
     <div class="container">
-        <h2>Book List</h2>
+        <div class="d-flex justify-content-between mt-3">
+            <h2>Book List</h2>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal">Add Book</button>
+        </div>
+        <div class="modal" id="myModal">
+            <div class="modal-dialog modal-dialog-centered modal-md">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-tittle">Add New Employee</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label class="form-label">Title</label>
+                            <input type="text" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Author</label>
+                            <input type="text" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Genre</label>
+                            <input type="text" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Description</label>
+                            <textarea cols="30" rows="10" class="form-control"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Publisher</label>
+                            <input type="text" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">ISBN</label>
+                            <input type="number" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Published at</label>
+                            <input type="date" class="form-control">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="form-inline mb-3">
             <label class="mr-2">Show:</label>
             <select v-model="perPage" @change="fetchBooks" class="form-control">
@@ -116,44 +159,49 @@
 </template>
 
 <script>
-import { useRouter } from "vue-router";
-export default {
-    setup() {
-        const router = useRouter();
-        function logout() {
-            localStorage.removeItem("token");
-            router.push({ name: "Home" });
-        }
-    },
-    data() {
-        return {
-            books: {
-                data: [],
-                current_page: 1,
-                last_page: 1,
-            },
-            perPage: 10,
-        };
-    },
-    mounted() {
-        this.fetchBooks();
-    },
-    methods: {
-        async fetchBooks() {
-            try {
-                const response = await fetch(
-                    `/api/admin/get_books?per_page=${this.perPage}&page=${this.books.current_page}`
-                );
-                const data = await response.json();
-                this.books = data;
-            } catch (error) {
-                console.error("Error fetching books:", error);
-            }
+    import { useRouter } from "vue-router";
+    import { reactive } from "vue";
+    export default {
+        setup() {
+           const form = reactive({
+                title: '',
+                author: '',
+                genre: '',
+                description: '',
+                publisher: '',
+                isbn: '',
+                published_at: '',
+            });
         },
-        changePage(pageNumber) {
-            this.books.current_page = pageNumber;
+        data() {
+            return {
+                books: {
+                    data: [],
+                    current_page: 1,
+                    last_page: 1,
+                },
+                perPage: 10,
+            };
+        },
+        mounted() {
             this.fetchBooks();
         },
-    },
-};
+        methods: {
+            async fetchBooks() {
+                try {
+                    const response = await fetch(
+                        `/api/admin/get_books?per_page=${this.perPage}&page=${this.books.current_page}`
+                    );
+                    const data = await response.json();
+                    this.books = data;
+                } catch (error) {
+                    console.error("Error fetching books:", error);
+                }
+            },
+            changePage(pageNumber) {
+                this.books.current_page = pageNumber;
+                this.fetchBooks();
+            },
+        },
+    };
 </script>

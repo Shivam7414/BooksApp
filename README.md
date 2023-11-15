@@ -14,12 +14,17 @@ Follow these steps to set up the project:
     npm install
     ```
 
-3. Run database migrations:
+3. Install JavaScript dependencies:
 
     ```bash
-    php artisan migrate
+    npm install
+
+4. Run generate app key command:
+
+    ```bash
+    php artisan key:generate
     ```
-3. Run add fake book command:
+5. Run add fake book command:
 
     ```bash
     php artisan fake:books
@@ -40,3 +45,9 @@ After installing dependencies, run the following commands:
     ```bash
     npm run dev
     ```
+
+## API Documentation
+
+Explore our API using Postman:
+
+[![Run in Postman](https://run.pstmn.io/button.svg)](https://www.postman.com/shivamdev7414/workspace/bookapp/collection/31082363-7e8c9890-ac3b-4efd-8955-30a958090226?action=share&creator=31082363)
